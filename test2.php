@@ -9,7 +9,7 @@ $host = 'http://localhost:4444/wd/hub'; // this is the default
 $capabilities = DesiredCapabilities::chrome();
 $driver = RemoteWebDriver::create($host, $capabilities, 5000);
 // navigate to 'http://www.seleniumhq.org/'
-$driver->get('https://westdcxtest.westpharma.com/west-login');
+$driver->get('');
 // adding cookie
 $driver->manage()->deleteAllCookies();
 $cookie = new Cookie('privacy-notification', 1,365);

@@ -25,7 +25,7 @@ else
 }
 
 $elementType="name";
-$driver->get("https://westdcxtest.westpharma.com/west-login");
+$driver->get("");
 $email=array('test1','test@test.com','johnwest@yopmail.com');
 for($i=0;$i<=2;$i++){
 	

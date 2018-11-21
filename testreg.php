@@ -25,7 +25,7 @@ else
 }
 
 $elementType="name";
-$driver->get("https://westdcxtest.westpharma.com/westregistration.aspx");
+$driver->get("url");
 
 	
 	echo "The current URI is '" . $driver->getCurrentURL() . "'\n";
