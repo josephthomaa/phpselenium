@@ -4,7 +4,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\WebDriverBy;
 use Facebook\WebDriver\WebDriverNavigation;
-
+global $driver;
 
 $host = 'http://localhost:4444/wd/hub'; // this is the default
 $USE_FIREFOX = false; // if false, will use chrome.
@@ -23,26 +23,57 @@ else
         Facebook\WebDriver\Remote\DesiredCapabilities::chrome()
     );
 }
-
-$elementType="name";
+$driver->get('chrome://settings/clearBrowserData');
+button('id','clearBrowsingDataConfirm');
+//sleep(3);
 $driver->get("");
-$email=array('test1','test@test.com','johnwest@yopmail.com');
-for($i=0;$i<=2;$i++){
+
+function input($identifier,$idvalue,$val){
+		global $driver;
+		try{
+			$driver->findElement(Facebook\WebDriver\WebDriverBy::$identifier($idvalue))->click();
+			$driver->findElement(Facebook\WebDriver\WebDriverBy::$identifier($idvalue))->sendKeys($val);
+			}
+		catch(Exception $e){
+			echo $e;
+		}
+	}
 	
-	echo "The current URI is '" . $driver->getCurrentURL() . "'\n";
-	sleep(2);
-	# enter text into the search field
-	$driver->findElement(Facebook\WebDriver\WebDriverBy::$elementType('UserName'))->click();
-	$driver->findElement(Facebook\WebDriver\WebDriverBy::$elementType('UserName'))->sendKeys($email[$i]);
-	sleep(1);
-	$driver->findElement(Facebook\WebDriver\WebDriverBy::name('Password'))->click();
-	$driver->findElement(Facebook\WebDriver\WebDriverBy::name('Password'))->sendKeys(array('Password1!'));
-	
-	$driver->findElement(Facebook\WebDriver\WebDriverBy::id('SignInButton'))->click();
-	
-	sleep(2);
-	//$driver->navigate()->refresh();
-	$driver->findElement(Facebook\WebDriver\WebDriverBy::name('UserName'))->clear();
-	$driver->findElement(Facebook\WebDriver\WebDriverBy::name('Password'))->clear();
-}
+function button($identifier,$idvalue){
+		global $driver;
+		try{
+			$driver->findElement(Facebook\WebDriver\WebDriverBy::$identifier($idvalue))->click();
+			
+		}
+		catch(Exception $e){
+			echo $e;
+		}
+	}	
+function href($identifier,$idvalue){
+		global $driver;
+		try{
+			$driver->findElement(WebDriverBy::$identifier("//a[@href='".$idvalue."]"))->click();
+			
+		}
+		catch(Exception $e){
+			echo $e;
+		}
+	}
+function js($idvalue){
+		global $driver;
+		try{
+			$driver->executeScript('document.querySelector("'.$idvalue.'").click()');
+			
+		}
+		catch(Exception $e){
+			echo $e;
+		}
+	}	
+include("excelim.php");
+
+//$driver->get('');
+//$driver->executeScript('document.querySelector("div.privacy-warning.permisive a").click()');
+//$driver->findElement(WebDriverBy::classname('c-utility-navigation-SignIn-Btn'))->click();
+
+
 echo "The current URI is '" . $driver->getCurrentURL() . "'\n";
