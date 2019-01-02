@@ -1,7 +1,7 @@
 <?php
 require_once  ('PHPExcel/Classes/PHPExcel.php');
 require_once 'PHPExcel/Classes/PHPExcel/IOFactory.php';
-$path="data.xls";
+$path="test.xls";
 $objPHPExcel = PHPExcel_IOFactory::load($path);
 
 foreach ($objPHPExcel->getWorksheetIterator() as $worksheet) {
@@ -43,29 +43,47 @@ foreach($data as $page){
 		
 }
 function setform($i){
+	
 		global $driver;
 		sleep(3);
-		if($driver->getCurrentURL()!=$i[0]['url']){
-			$driver->get($i[0]['url']);
-		}
-		sleep(5);
 		try{
-			$driver->executeScript('document.querySelector("div.privacy-warning.permisive a").click()');
+			$url=$driver->getCurrentURL();
+			waitLoader();
+			$passedUrl=$i[0]['url'];
+			if($driver->getCurrentURL()!=$i[0]['url'] && $i[0]['url'] != ""){
+				$driver->get($i[0]['url']);
+				waitLoader();
+				echo "The current page is '" .$i[0]['page']. "'\n";
+				if($i[0]['page']=='delivery'){
+					
+						sleep(20);
+					
+				}
+			}
+			
+			sleep(2);
+			
+				$driver->executeScript('document.querySelector("div.privacy-warning.permisive a").click()');
+				
+				
 		}
 		catch(Exception $e){
-			echo $e;
+			echo "<br> ".$e;
 		}
 		foreach($i as $j){
-			sleep(1);
+			sleep(2);
+			
+			($j['element']== 'wait') ?  wait($j['identifier'],$j['idValue']) : " ";
 			($j['element']== 'input') ?  input($j['identifier'],$j['idValue'],$j['data']) : " ";
 			($j['element']== 'button') ?  button($j['identifier'],$j['idValue']) : " ";
 			($j['element']== 'href') ?  href($j['identifier'],$j['idValue']) : " ";
-			($j['element']== 'js') ?  js($j['idValue']) : " ";
+			($j['element']== 'js') ?  js($j['identifier'],$j['idValue']) : " ";
+			($j['element']== 'inputjs') ?  inputjs($j['idValue'],$j['data']) : " ";
+			($j['element']== 'selectjs') ?  selectjs($j['idValue'],$j['data']) : " ";
+			($j['element']== 'checkstatus') ?  checkstatus($url,$passedUrl) : " ";
+			($j['element']== 'waitloader') ?  waitLoader() : " ";
+			($j['element']== 'getmail') ?  getmail() : " ";
 		}
-		//echo "in".$i['url'];
-		//sleep(5);
-		//$driver->get($i['url']);
-		//$driver->executeScript('document.querySelector("div.privacy-warning.permisive a").click()');
 		sleep(2);
 	
 	}		

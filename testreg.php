@@ -25,7 +25,7 @@ else
 }
 
 $elementType="name";
-$driver->get("url");
+$driver->get("page url here");
 
 	
 	echo "The current URI is '" . $driver->getCurrentURL() . "'\n";

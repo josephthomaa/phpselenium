@@ -14,7 +14,7 @@ $driver = RemoteWebDriver::create($host, $capabilities, 5000);
 //include("excelim.php");
 
 // navigate to 'http://www.seleniumhq.org/'
-$driver->get('');
+$driver->get('page url here');
 $driver->executeScript('document.querySelector("div.privacy-warning.permisive a").click()');
 //$driver->findElement(WebDriverBy::classname('c-utility-navigation-SignIn-Btn'))->click();
 $driver->findElement(WebDriverBy::linkText("BUY"))->click();
